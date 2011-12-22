@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo "Creating folders"
+  mkdir -p ~/code/
+  mkdir -p ~/script/
+
 echo "Checking for SSH key, generating one if it doesn't exist ..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
@@ -17,11 +21,18 @@ echo "Put Homebrew location earlier in PATH ..."
 export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
   source ~/.zshrc
 
-echo "Installing Postgres, a good open source relational database ..."
+echo "Installing PostgreSQL, a good open source relational database ..."
   brew install postgres --no-python
+echo "PostgreSQL: Creating database..."
+  initdb /usr/local/var/postgres
+echo "PostgreSQL: Generating start/stop script..."
+  echo "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start" > ~/script/postgres_start.sh
+  echo "pg_ctl -D /usr/local/var/postgres stop -s -m fast" > ~/script/postgres_stop.sh
 
 echo "Installing MongoDB, a good open source NoSQL database ..."
   brew install mongodb
+echo "MongoDB: Generating start script..."
+  echo "mongod run --config /usr/local/Cellar/mongodb/2.0.2-x86_64/mongod.conf" > ~/script/mongodb_start.sh
 
 echo "Installing ack, a good way to search through files ..."
   brew install ack
