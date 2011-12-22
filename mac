@@ -1,47 +1,51 @@
 #!/usr/bin/env bash
 
-echo "Creating folders"
+echo "PATHS: Creating Directories..."
   mkdir -p ~/code/
   mkdir -p ~/script/
 
-echo "Checking for SSH key, generating one if it doesn't exist ..."
+echo "SSH Key: Checking for SSH key, generating one if it doesn't exist..."
   [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen -t rsa
 
-echo "Copying public key to clipboard. Paste it into your Github account ..."
+echo "SSH Key: Copying public key to clipboard. Paste it into your Github and Codeplane account..."
   [[ -f ~/.ssh/id_rsa.pub ]] && cat ~/.ssh/id_rsa.pub | pbcopy
   open https://github.com/account/ssh
+  open https://codeplane.com/account
 
-echo "Installing Homebrew, a good OS X package manager ..."
+echo "Homebrew: Installing an OS X package manager..."
   /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/gist/323731)"
   brew update
 
-echo "Put Homebrew location earlier in PATH ..."
+echo "Homebrew: Setting location earlier in PATH environment variable..."
   echo "
 # recommended by brew doctor
-export PATH='/usr/local/bin:$PATH'" >> ~/.zshrc
+export PATH='/usr/local/bin:\$PATH'" >> ~/.zshrc
   source ~/.zshrc
 
-echo "Installing PostgreSQL, a good open source relational database ..."
+echo "PostgreSQL: Installing an RDBMS..."
   brew install postgres --no-python
+
 echo "PostgreSQL: Creating database..."
   initdb /usr/local/var/postgres
-echo "PostgreSQL: Generating start/stop script..."
+
+echo "PostgreSQL: Generating manual start/stop script..."
   echo "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start" > ~/script/postgres_start.sh
   echo "pg_ctl -D /usr/local/var/postgres stop -s -m fast" > ~/script/postgres_stop.sh
 
-echo "Installing MongoDB, a good open source NoSQL database ..."
+echo "MongoDB: Installing a NoSQL database..."
   brew install mongodb
-echo "MongoDB: Generating start script..."
+
+echo "MongoDB: Generating manual start script..."
   echo "mongod run --config /usr/local/Cellar/mongodb/2.0.2-x86_64/mongod.conf" > ~/script/mongodb_start.sh
 
-echo "Installing ack, a good way to search through files ..."
+echo "ack: Installing a grep alternative..."
   brew install ack
 
-echo "Installing tmux, a good way to save project state and switch between projects ..."
+echo "tmux: Installing a terminal multiplexer..."
   brew install tmux
 
-echo "Installing ImageMagick, good for cropping and re-sizing images ..."
+echo "ImageMagick: Installing an image processor..."
   brew install imagemagick
 
-echo "Installing QT, used by Capybara Webkit for headless Javascript integration testing ..."
+echo "QT: Installing dependency of Capybara Webkit for headless Javascript integration testing ..."
   brew install qt
