@@ -49,3 +49,63 @@ echo "ImageMagick: Installing an image processor..."
 
 echo "QT: Installing dependency of Capybara Webkit for headless Javascript integration testing ..."
   brew install qt
+
+echo "wget: Installing wget..."
+  brew install wget
+
+echo "MacVim: Installing an awesome text editor..."
+  brew install macvim
+
+echo "Janus: Carlhuda's vim Distribution..."
+  curl https://raw.github.com/carlhuda/janus/master/bootstrap.sh -o - | sh
+
+echo "ZSH: OH MY ZSHELL..."
+  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
+echo "RVM: Installing ruby version manager..."
+  curl -s https://rvm.beginrescueend.com/install/rvm -o rvm-installer ; chmod +x rvm-installer ; ./rvm-installer --version latest
+  echo "
+# RVM
+[[ -s '/Users/`whoami`/.rvm/scripts/rvm' ]] && source '/Users/`whoami`/.rvm/scripts/rvm'" >> ~/.zshrc
+  source ~/.zshrc
+
+echo "Ruby: Beginning installation of ruby..."
+  bash < <(curl -s https://raw.github.com/InnoHub/laptop/master/ruby)
+
+echo "Git Settings: Setting up Global gitignore file..."
+  git config --global core.excludesfile ~/.gitignore
+  echo ".DS_Store" >> ~/.gitignore
+  echo "._*" >> ~/.gitignore
+  echo ".Spotlight-V100" >> ~/.gitignore
+  echo ".Trashes" >> ~/.gitignore
+
+echo "Git Settings: autocrlf and safecrlf"
+  git config --global core.autocrlf input
+  git config --global core.safecrlf true
+
+echo "Git Settings: Setup aliases..."
+  echo "[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p" >> ~/.gitconfig
+
+echo "Vim Colors: Changing Theme to Solarized..."
+  echo "color solarized" > ~/.vimrc.local
+  echo "color solarized" > ~/.gvimrc.local
+
+echo "Terminal Colors: Changing Theme to Solarized..."
+  wget "https://github.com/tomislav/osx-lion-terminal.app-colors-solarized/raw/master/Solarized%20Dark.terminal"
+  open "Solarized Dark.terminal"
+
+  wget "https://github.com/tomislav/osx-lion-terminal.app-colors-solarized/raw/dcdf6d2c1574318dee3a5f641c9b1c6ead19ce74/Solarized%20Light.terminal"
+  open "Solarized Light.terminal"
+
+  rm "Solarized Dark.terminal"
+  rm "Solarized Light.terminal"
+
+  echo "Downloaded Solarized Themes, please set them as your default theme..."
+  echo "You might also want to change the setting: When shell exits to Close if shell exited cleanly under the Terminal Preferences tab..."
